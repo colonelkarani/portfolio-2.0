@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon! Get Ready for Something Amazing!</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Optional: Favicon -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+
+    <div class="page-wrapper">
+
+        <header class="site-header">
+            <div class="logo">
+                <!-- Replace with your logo text or an <img> tag -->
+                YourBrand
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="hero-section">
+                <h1 class="hero-title">I'm Brewing Something Special</h1>
+                <p class="hero-subtitle">
+                    Our team is working passionately to bring you an innovative and delightful experience.
+                    The final touches are being made. Get ready to be amazed!
+                </p>
+            </section>
+
+            <section class="countdown-section">
+                <h2 class="section-title">Launching In:</h2>
+                <div class="countdown-timer" id="countdownTimer">
+                    <div class="timer-unit">
+                        <span class="count" id="days">00</span>
+                        <span class="label">Days</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span class="count" id="hours">00</span>
+                        <span class="label">Hours</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span class="count" id="minutes">00</span>
+                        <span class="label">Minutes</span>
+                    </div>
+                    <div class="timer-separator">:</div>
+                    <div class="timer-unit">
+                        <span class="count" id="seconds">00</span>
+                        <span class="label">Seconds</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="subscribe-section">
+                <h2 class="section-title">Stay Updated!</h2>
+                <p class="subscribe-text">
+                    Be the first to know when we go live. No spam, just one glorious launch announcement.
+                </p>
+                <form class="subscribe-form" id="subscribeForm">
+                    <div class="form-group">
+                        <input type="email" id="emailInput" class="form-input" placeholder="Enter your email address" required>
+                        <button type="submit" class="form-button">Notify Me</button>
+                    </div>
+                    <p id="formMessage" class="form-message"></p>
+                </form>
+            </section>
+
+            <section class="social-section">
+                <h3 class="social-title">Follow Our Journey:</h3>
+                <div class="social-links">
+                    <!-- Replace # with your actual social media links -->
+                    <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">F</a>
+                    <a href="#" class="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">T</a>
+                    <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">I</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">L</a>
+                    <!-- You can use icon fonts like FontAwesome here or SVGs for actual icons -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>&copy; <span id="currentYear"></span> Your Company Name. All Rights Reserved.</p>
+            <p>Patience is a virtue, and ours is almost here!</p>
+        </footer>
+
+    </div> <!-- .page-wrapper -->
+
+    <script>
+        // --- Countdown Timer Logic ---
+        function startCountdown(endDateStr) {
+            const countdownTimer = document.getElementById('countdownTimer');
+            if (!countdownTimer) return;
+
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            const targetDate = new Date(endDateStr).getTime();
+
+            if (isNaN(targetDate)) {
+                console.error("Invalid end date for countdown.");
+                countdownTimer.innerHTML = "<p class='error-message'>Countdown setup error.</p>";
+                return;
+            }
+
+            const updateTimer = () => {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    countdownTimer.innerHTML = "<p class='launched-message'>We've Launched! ✨</p>";
+                    // You might want to hide the form or change its message too
+                    const subscribeSection = document.querySelector('.subscribe-section');
+                    if(subscribeSection) subscribeSection.style.display = 'none';
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                daysEl.textContent = String(days).padStart(2, '0');
+                hoursEl.textContent = String(hours).padStart(2, '0');
+                minutesEl.textContent = String(minutes).padStart(2, '0');
+                secondsEl.textContent = String(seconds).padStart(2, '0');
+            };
+
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call to display immediately
+        }
+
+        // Set your launch date here: "Month Day, Year HH:MM:SS" e.g., "Dec 31, 2025 23:59:59"
+        startCountdown("January 1, 2026 00:00:00");
+
+
+        // --- Subscription Form Logic (Mock) ---
+        const subscribeForm = document.getElementById('subscribeForm');
+        const emailInput = document.getElementById('emailInput');
+        const formMessage = document.getElementById('formMessage');
+
+        if (subscribeForm && emailInput && formMessage) {
+            subscribeForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent actual form submission
+                formMessage.textContent = ''; // Clear previous message
+                formMessage.classList.remove('success', 'error');
+
+
+                if (emailInput.value && emailInput.checkValidity()) {
+                    // Simulate API call
+                    formMessage.textContent = 'Subscribing...';
+                    setTimeout(() => {
+                        formMessage.textContent = `Thank you! We'll notify ${emailInput.value} at launch!`;
+                        formMessage.classList.add('success');
+                        emailInput.value = ''; // Clear the input
+                    }, 1500);
+                } else {
+                    formMessage.textContent = 'Please enter a valid email address.';
+                    formMessage.classList.add('error');
+                }
+
+                // Clear message after a few seconds
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                    formMessage.classList.remove('success', 'error');
+                }, 7000);
+            });
+        }
+
+
+        // --- Footer Current Year ---
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
+    </script>
+
+</body>
+</html>

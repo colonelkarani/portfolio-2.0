@@ -1,0 +1,516 @@
+/* style.css - Coming Soon Page Styles */
+
+/* --- Global Resets & Base Styles --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px; /* Base font size */
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7;
+    color: #f0f0f0; /* Light text color for dark background */
+    background-color: #1a1a2e; /* Fallback background */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* For pseudo-element background */
+}
+
+/* Animated Gradient Background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1; /* Behind all content */
+    background: linear-gradient(
+        135deg,
+        #16222A, /* Dark Blue */
+        #3A6073, /* Medium Blue/Green */
+        #1a1a2e, /* Dark Purple/Blue */
+        #2c3e50  /* Dark Slate Gray */
+    );
+    background-size: 400% 400%;
+    animation: gradientAnimation 25s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Utility Classes --- */
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #e0c56e; /* Gold accent */
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* --- Page Wrapper & Layout --- */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Vertically center content when page is short */
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px; /* Max width for content */
+    margin: 0 auto;
+    padding: 2rem 1rem; /* Padding for smaller screens */
+    position: relative; /* Ensure it's above the pseudo-element */
+    z-index: 1;
+}
+
+/* --- Site Header --- */
+.site-header {
+    width: 100%;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem; /* Space below header */
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.logo img {
+    max-height: 50px; /* Adjust if using an image logo */
+    width: auto;
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    width: 100%;
+    text-align: center;
+}
+
+/* Hero Section */
+.hero-section {
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font size */
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: #cccccc; /* Slightly dimmer than main text */
+    max-width: 700px;
+    margin: 0 auto 1.5rem auto;
+    line-height: 1.8;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+    opacity: 0; /* Start hidden for animation */
+}
+
+/* Animations for Hero Text */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Countdown Section */
+.countdown-section {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px); /* Glassmorphism effect if supported */
+    -webkit-backdrop-filter: blur(5px); /* For Safari */
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* Space between timer units */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.timer-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    min-width: 80px; /* Minimum width for each unit */
+}
+
+.timer-unit .count {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.timer-unit .label {
+    font-size: 0.875rem;
+    color: #bdc3c7; /* Lighter gray for labels */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.timer-separator {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: #e0c56e; /* Gold accent for separators */
+    font-weight: 700;
+    align-self: center; /* Align with the numbers */
+    padding-bottom: 1.5rem; /* Align with number baseline better */
+}
+
+.launched-message, .error-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #e0c56e;
+    padding: 1rem;
+}
+.error-message {
+    color: #e74c3c; /* Red for errors */
+}
+
+/* Subscribe Section */
+.subscribe-section {
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+}
+
+.subscribe-text {
+    font-size: 1.1rem;
+    color: #cccccc;
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.subscribe-form .form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem; /* Space between input and button */
+    max-width: 500px;
+    margin: 0 auto;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.form-input {
+    flex-grow: 1;
+    padding: 0.9rem 1.2rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #333; /* Dark text for light input */
+    background-color: #ffffff;
+    border: 2px solid transparent; /* Border for focus state */
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 250px; /* Ensure it doesn't get too small */
+}
+
+.form-input::placeholder {
+    color: #888;
+}
+
+.form-input:focus {
+    border-color: #e0c56e; /* Gold accent */
+    box-shadow: 0 0 0 3px rgba(224, 197, 110, 0.3);
+}
+
+.form-button {
+    padding: 0.9rem 1.8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e; /* Dark text for light button */
+    background-color: #e0c56e; /* Gold accent */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.form-button:hover,
+.form-button:focus {
+    background-color: #d4b85a; /* Darker gold */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(224, 197, 110, 0.3);
+}
+
+.form-message {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    min-height: 1.2em; /* Prevent layout shift */
+    transition: color 0.3s ease;
+}
+.form-message.success {
+    color: #2ecc71; /* Green for success */
+}
+.form-message.error {
+    color: #e74c3c; /* Red for error */
+}
+
+/* Social Section */
+.social-section {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+}
+
+.social-title {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem; /* Space between icons */
+}
+
+.social-link {
+    display: inline-flex; /* For centering content if using icons */
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem; /* Size of text icon, adjust if using font icons */
+    font-weight: bold;
+    color: #e0c56e; /* Gold accent */
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(224, 197, 110, 0.5);
+    border-radius: 50%; /* Circular links */
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover,
+.social-link:focus {
+    background-color: #e0c56e;
+    color: #1a1a2e; /* Dark text on hover */
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 4px 12px rgba(224, 197, 110, 0.3);
+}
+/* If using actual icons (e.g., FontAwesome), target the <i> or <svg> tag */
+/* .social-link i { font-size: 1.5rem; } */
+
+/* --- Site Footer --- */
+.site-footer {
+    width: 100%;
+    padding: 2rem 1rem;
+    margin-top: auto; /* Pushes footer to bottom */
+    text-align: center;
+    font-size: 0.9rem;
+    color: #bdc3c7; /* Light gray for footer text */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer p {
+    margin-bottom: 0.5rem;
+}
+.site-footer p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Responsive Design --- */
+
+/* Medium screens (tablets) */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 1.5rem 1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 3.5rem); /* Adjust for tablets */
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .countdown-timer {
+        gap: 0.5rem; /* Reduce gap for smaller screens */
+    }
+
+    .timer-unit .count {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+    .timer-separator {
+        font-size: clamp(1.8rem, 7vw, 2.8rem);
+        padding-bottom: 1.2rem;
+    }
+
+    .timer-unit .label {
+        font-size: 0.75rem;
+    }
+
+    .subscribe-form .form-group {
+        flex-direction: column; /* Stack input and button */
+        gap: 1rem;
+    }
+
+    .form-input,
+    .form-button {
+        width: 100%; /* Full width for stacked items */
+        max-width: 350px; /* But not too wide */
+    }
+}
+
+/* Small screens (mobile phones) */
+@media (max-width: 480px) {
+    .page-wrapper {
+        padding: 1rem 0.75rem;
+    }
+    
+    .site-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .logo {
+        font-size: 1.6rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 10vw, 2.8rem); /* Further adjust for mobile */
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.85rem, 4vw, 1rem);
+        padding: 0 0.5rem; /* Add horizontal padding to prevent text touching edges */
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .countdown-section {
+        padding: 1rem;
+    }
+
+    .countdown-timer {
+        /* For very small screens, might want 2x2 layout, but flex-wrap should handle it */
+        /* Example: if two units per row is desired */
+        /* justify-content: space-around;  */
+    }
+    .timer-unit {
+        padding: 0.3rem 0.5rem;
+        min-width: 65px;
+    }
+    .timer-unit .count {
+        font-size: clamp(1.8rem, 10vw, 2.5rem);
+    }
+    .timer-separator {
+        font-size: clamp(1.5rem, 8vw, 2.2rem);
+        padding-bottom: 1rem;
+    }
+    .timer-unit .label {
+        font-size: 0.65rem;
+    }
+
+
+    .subscribe-text {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    .form-input,
+    .form-button {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .social-links {
+        gap: 1rem;
+    }
+    .social-link {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .site-footer {
+        font-size: 0.8rem;
+        padding: 1.5rem 0.75rem;
+    }
+}
+
+/* Accessibility: Focus Visible styling for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid #e0c56e; /* Gold accent for focus */
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(224, 197, 110, 0.2);
+}
+/* For elements that already have a custom focus like inputs, you might want to adjust */
+.form-input:focus-visible {
+    /* Uses its own focus style already */
+    outline: none; /* Prevent double outline */
+}
+.form-button:focus-visible {
+    /* Uses its own hover/focus style already */
+    outline: none; /* Prevent double outline */
+}
+.social-link:focus-visible {
+    outline: none; /* Prevent double outline, relies on hover/focus style */
+}
+
