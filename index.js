@@ -3,7 +3,11 @@ const express = require("express");
 const path = require("path")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
-const Blog = require("./blogModel")
+const Blog = require("./models/blogModel");
+const { type } = require("os");
+const { log } = require("console");
+const Contact = require("./models/contactModel")
+const Project = require("./models/projectModel")
 
 const app = express()
 
@@ -16,8 +20,19 @@ app.get("/blogs/:slug",async(req,res)=>{
     if (!blog){
         return res.status(404).send(" blog not found")
     }
-    res.render("blog", {blog})
+    res.render("blogs", {blog})
 })
+
+app.get("/project", (req, res)=>{
+    res.render("project")
+})
+
+app.get("/blog", async(req,res)=>{
+    const blogs = await Blog.find()
+   
+    res.render("blog", {blogs})
+})
+
 
 app.use(express.static(path.join(__dirname , "public")));
 app.use(bodyParser.json())
@@ -31,6 +46,7 @@ mongoose.connect(process.env.CONNECTION_STRING).then(()=>{
 const MessageSchema = new mongoose.Schema({
     fullname:String,
      message: String,
+     subject: String,
      email:String})
 
 const Message = mongoose.model("Messages", MessageSchema);
@@ -38,9 +54,9 @@ const Message = mongoose.model("Messages", MessageSchema);
 
 
 app.post("/contact", async (req, res)=>{
-    const {fullname, email, message}= req.body
-    const NewMessage = new Message({fullname, email, message})
-    await NewMessage.save()
+    const {fullname, email,subject, message}= req.body
+    const NewMessage = new Message({fullname, email,  subject ,message})
+    await NewMessage.save().then(console.log("message saved"))
     res.redirect('/')
 })
 app.post("/api/blog", async(req,res)=>{
@@ -55,6 +71,24 @@ app.post("/api/blog", async(req,res)=>{
         console.log("error creating new blog  "+ error );        
     }
 })
+app.post("/api/project", async(req,res)=>{
+    const project = new Project(req.body)
+    try {
+        const savedProject = await project.save()
+        console.log("New project Created"
+            + project
+        ); 
+        res.redirect("/")       
+    } catch (error) {
+        console.log("error creating new project  "+ error );        
+    }
+})
+app.get('/project/:id', async (req, res) => {
+  const project = await Project.findById(req.params.id);
+  res.render('project', { project });
+});
+
+
 app.listen(3000, ()=>{
     console.log("app is listening on http://localhost:3000");    
 })

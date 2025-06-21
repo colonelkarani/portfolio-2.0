@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= blog.title %>- <%= blog.author.name %></title>
+    <title>the blog - Exploring Tech, Medicine, and the Wonders In Between</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@300;400;500&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <style>
-        :root {
+    <link rel="shortcut icon" href="mamboto/me.png" type="image/x-icon">
+
+    <style>       
+    :root {
             --primary-bg: #0a0a0a;
             --secondary-bg: #1a1a1a;
             --card-bg: #2a2a2a;
@@ -41,7 +42,7 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--primary-bg);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             transition: var(--transition);
         }
 
@@ -116,23 +117,32 @@
             gap: 1rem;
         }
 
-        .back-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .search-container {
+            position: relative;
         }
 
-        .back-btn:hover {
-            background: var(--accent-color);
-            color: var(--primary-bg);
+        .search-input {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            color: var(--text-primary);
+            width: 250px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
             border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
 
         .theme-toggle {
@@ -153,14 +163,15 @@
 
         .main-content {
             margin-top: 100px;
-            max-width: 800px;
+            max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
             padding: 2rem;
         }
 
-        .article-header {
-            margin-bottom: 3rem;
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 0.8s ease forwards;
@@ -173,64 +184,127 @@
             }
         }
 
-        .article-title {
+        .hero h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
         }
 
-        .article-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 2rem;
+        .hero p {
+            font-size: 1.2rem;
             color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .meta-item {
+        .newsletter-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .newsletter-form {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 1rem auto 0;
         }
 
-        .article-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+        .newsletter-input {
+            flex: 1;
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: var(--text-primary);
         }
 
-        .article-tag {
+        .newsletter-btn {
             background: var(--accent-color);
             color: var(--primary-bg);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
             font-weight: 500;
+            transition: var(--transition);
         }
 
-        .article-image {
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, var(--accent-color), #8b6914);
-            border-radius: 15px;
+        .newsletter-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .filter-tags {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tag-filter {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag-filter:hover,
+        .tag-filter.active {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border-color: var(--accent-color);
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            border: 1px solid var(--border-color);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent-color), #8b6914);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 4rem;
+            font-size: 3rem;
             position: relative;
             overflow: hidden;
         }
 
-        .article-image::before {
+        .post-image::before {
             content: '';
             position: absolute;
             top: 0;
@@ -239,177 +313,137 @@
             bottom: 0;
             background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
             transform: translateX(-100%);
-            animation: shimmer 3s ease-in-out infinite;
+            transition: transform 0.6s;
         }
 
-        @keyframes shimmer {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+        .post-card:hover .post-image::before {
+            transform: translateX(100%);
         }
 
-        .article-content {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease 0.2s forwards;
+        .post-content {
+            padding: 1.5rem;
         }
 
-        .article-content h2 {
+        .post-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin: 2rem 0 1rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
         }
 
-        .article-content h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent-color);
+        .post-excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
-        .article-content p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            line-height: 1.8;
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
-        .article-content ul, .article-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
+        .post-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
-        .article-content li {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+        .post-tags {
+            display: flex;
+            gap: 0.5rem;
         }
 
-        .article-content blockquote {
-            background: var(--card-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 0 10px 10px 0;
-            font-style: italic;
-            position: relative;
-        }
-
-        .article-content blockquote::before {
-            content: '"';
-            font-size: 4rem;
-            color: var(--accent-color);
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            font-family: serif;
-        }
-
-        .code-block {
-            background: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Fira Mono', monospace;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .code-block::before {
-            content: attr(data-language);
-            position: absolute;
-            top: 0.5rem;
-            right: 1rem;
+        .post-tag {
             background: var(--accent-color);
             color: var(--primary-bg);
             padding: 0.2rem 0.5rem;
-            border-radius: 4px;
+            border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 500;
         }
 
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(139, 105, 20, 0.1));
-            border: 1px solid var(--accent-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .highlight-box h4 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .article-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .social-share {
-            margin-bottom: 3rem;
-        }
-
-        .share-buttons {
+        .post-actions {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .read-more {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            color: var(--accent-hover);
+        }
+
+        .post-social {
+            display: flex;
             gap: 0.5rem;
         }
 
-        .share-btn:hover {
-            background: var(--accent-color);
-            color: var(--primary-bg);
-            border-color: var(--accent-color);
+        .social-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.3rem;
+            border-radius: 50%;
+            transition: var(--transition);
         }
 
-        .author-bio {
+        .social-btn:hover {
+            color: var(--accent-color);
+            background: var(--border-color);
+        }
+
+        .portfolio-section {
             background: var(--card-bg);
             border-radius: 15px;
             padding: 2rem;
             margin-bottom: 3rem;
             border: 1px solid var(--border-color);
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
         }
 
-        .author-avatar {
-            width: 80px;
-            height: 80px;
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .portfolio-item {
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 150px;
             background: linear-gradient(135deg, var(--accent-color), #8b6914);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 2rem;
-            flex-shrink: 0;
         }
 
-        .author-info h4 {
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
+        .portfolio-info {
+            padding: 1rem;
         }
 
-        .related-posts {
+        .contact-section {
             background: var(--card-bg);
             border-radius: 15px;
             padding: 2rem;
@@ -417,77 +451,33 @@
             border: 1px solid var(--border-color);
         }
 
-        .related-grid {
+        .contact-form {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .related-card {
-            background: var(--secondary-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            transition: var(--transition);
-            border: 1px solid var(--border-color);
-        }
-
-        .related-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px var(--shadow);
-        }
-
-        .related-card h5 {
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .related-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .related-link {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .comment-section {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .comment-form {
-            margin-bottom: 2rem;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 2rem auto 0;
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
         }
 
         .form-input {
-            width: 100%;
             background: var(--secondary-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 0.8rem;
             color: var(--text-primary);
-            font-family: inherit;
+            flex: 1;
         }
 
         .form-textarea {
-            width: 100%;
             background: var(--secondary-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 0.8rem;
             color: var(--text-primary);
-            font-family: inherit;
             min-height: 120px;
             resize: vertical;
         }
@@ -496,55 +486,16 @@
             background: var(--accent-color);
             color: var(--primary-bg);
             border: none;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: var(--transition);
+            justify-self: center;
         }
 
         .form-submit:hover {
             background: var(--accent-hover);
-        }
-
-        .comments-list {
-            margin-top: 2rem;
-        }
-
-        .comment {
-            background: var(--secondary-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .comment-author {
-            font-weight: 600;
-            color: var(--accent-color);
-        }
-
-        .comment-date {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: var(--accent-color);
-            z-index: 9999;
-            transition: width 0.1s ease;
         }
 
         .support-btn {
@@ -649,6 +600,120 @@
             border-left: 4px solid var(--accent-color);
         }
 
+        .code-block {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Fira Mono', monospace;
+            overflow-x: auto;
+        }
+
+        .comment-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-input {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: var(--text-primary);
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .comment-submit {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            height: fit-content;
+        }
+
+        .comment-submit:hover {
+            background: var(--accent-hover);
+        }
+
+        .ecommerce-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-color), #8b6914);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-price {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .add-to-cart {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .add-to-cart:hover {
+            background: var(--accent-hover);
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
@@ -656,30 +721,25 @@
                 gap: 1rem;
             }
 
+            .search-input {
+                width: 200px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
             .main-content {
                 padding: 1rem;
             }
 
-            .article-title {
-                font-size: 2rem;
-            }
-
-            .article-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .share-buttons {
-                justify-content: center;
-            }
-
-            .author-bio {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .related-grid {
-                grid-template-columns: 1fr;
+            .filter-tags {
+                gap: 0.5rem;
             }
 
             .support-btn,
@@ -694,46 +754,38 @@
             .back-to-top {
                 left: 1rem;
             }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
         }
 
-        .table-of-contents {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            /* position: sticky; */
-            top: 120px;
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
         }
 
-        .toc-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--accent-color);
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .toc-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .toc-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-            display: block;
-            padding: 0.3rem 0;
-        }
-
-        .toc-link:hover,
-        .toc-link.active {
-            color: var(--accent-color);
-        }
+        .post-card:nth-child(1) { animation-delay: 0.1s; }
+        .post-card:nth-child(2) { animation-delay: 0.2s; }
+        .post-card:nth-child(3) { animation-delay: 0.3s; }
+        .post-card:nth-child(4) { animation-delay: 0.4s; }
+        .post-card:nth-child(5) { animation-delay: 0.5s; }
+        .post-card:nth-child(6) { animation-delay: 0.6s; }
+        .post-card:nth-child(7) { animation-delay: 0.7s; }
+        .post-card:nth-child(8) { animation-delay: 0.8s; }
+        .post-card:nth-child(9) { animation-delay: 0.9s; }
+        .post-card:nth-child(10) { animation-delay: 1.0s; }
     </style>
 </head>
 <body data-theme="dark">
@@ -741,16 +793,14 @@
         <div class="spinner"></div>
     </div>
 
-    <div class="progress-bar" id="progressBar"></div>
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">the blog</a>
             <div class="nav-controls">
-                <a href="./index.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Blog
-                </a>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search posts..." id="searchInput">
+                </div>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -759,182 +809,180 @@
     </nav>
 
     <main class="main-content">
-        <article>
-            <header class="article-header">
-                <h1 class="article-title"><%= blog.title %></h1>
-                <div class="article-meta">
-                    <div class="meta-item">
-                        <i class="fas fa-calendar"></i>
-                        <span><%= blog.publishedAt ? blog.publishedAt.toDateString() : '' %></span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="fas fa-clock"></i>
-                        <span><%= blog.readTime %>min read</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="fas fa-user"></i>
-                        <span><%= blog.author.name %></span>
-                    </div>
-                </div>
-                <div class="article-tags">
-                     <% blog.tags.forEach(function(tag) { %>
-                    <span class="article-tag"><%= tag %></span>
-                <% }); %>
-                </div>
-            </header>
+        <section class="hero">
+            <h1>the blog</h1>
+            <p>Exploring Tech, Medicine, and the Wonders In Between</p>
+        </section>
 
-            <div class="article-image">
-            <img src="<%= blog.image %>" style="width: 100%; height: 100%;">
+     
+
+        <div class="filter-tags">
+            <button class="tag-filter active" data-tag="all">All</button>
+            <button class="tag-filter" data-tag="tech">Tech</button>
+            <button class="tag-filter" data-tag="medicine">Medicine</button>
+            <button class="tag-filter" data-tag="personal">Personal</button>
+            <button class="tag-filter" data-tag="ai">AI</button>
+            <button class="tag-filter" data-tag="web-dev">Web Dev</button>
+        </div>
+
+        <div class="posts-grid" id="postsGrid">
+    <% blogs.forEach(function(blog){ %>
+        <article class="post-card" data-tags="<%= blog.tags.join(' ') %>">
+            <div class="post-image">
+                <img src="<%= blog.image %>" alt="" style="width: 100%; height: 100%;" srcset="">
             </div>
-
-            <div class="table-of-contents">
-                <h4 class="toc-title">Table of Contents</h4>
-                <ul class="toc-list">
-                    <li class="toc-item"><a href="#introduction" class="toc-link">Introduction</a></li>
-                    <% blog.content.sections.forEach(function(section) { %>
-                    <li class="toc-item"><a href="#<%= section.id %>" class="toc-link"><%= section.title %></a></li>
-                <% }); %>
-                    <li class="toc-item"><a href="#conclusion" class="toc-link">Conclusion</a></li>
-                </ul>
+            <div class="post-content">
+                <h2 class="post-title"><%= blog.title %></h2>
+                <div class="post-meta">
+                    <span class="post-date"><%= blog.publishedAt.toDateString() %></span>
+                    <div class="post-tags">
+                        
+                            <span class="post-tag"><%= blog.tags[0] %></span>
+                            <span class="post-tag"><%= blog.tags[1] %></span>
+                       
+                    </div>
+                </div>
+                <p class="post-excerpt"><%= blog.content.introduction.substring(0, 100) %> ...</p>
+                <div class="post-actions">
+                    <a href="/blogs/<%= blog.slug %>" class="read-more">Read More</a>
+                    <div class="post-social">
+                        <button class="social-btn" title="Share on Twitter"><i class="fab fa-twitter"></i></button>
+                        <button class="social-btn" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                        <button class="social-btn" title="Copy Link"><i class="fas fa-link"></i></button>
+                    </div>
+                </div>
             </div>
-
-            <div class="article-content">
-                <section id="introduction">
-                    <h2>Introduction</h2>
-                    <p><%= blog.content.introduction %></p>
-
-                    <% if (blog.content.quote) { %>
-                    <blockquote>
-                        <%= blog.content.quote %>
-                    </blockquote>
-                <% } %>
-                </section>
-
-                <% blog.content.sections.forEach(function(section) { %>
-                <section id="<%= section.id %>">
-                    <h2><%= section.title %></h2>
-                    <% if (section.quote) { %>
-                        <blockquote><%= section.quote %></blockquote>
-                    <% } %>
-                    <% section.subtitles.forEach(function(sub) { %>
-                        <h3><%= sub.subtitle %></h3>
-                        <p><%= sub.content %></p>
-                    <% }); %>
-                    <% section.codeBlocks.forEach(function(code) { %>
-                        <div class="code-block" data-language="<%= code.language %>">
-<pre><code><%= code.code %></code></pre>
-                        </div>
-                    <% }); %>
-                    <% section.highlights.forEach(function(hl) { %>
-                        <div class="highlight-box">
-                            <h4><%= hl.title %></h4>
-                            <p><%= hl.content %></p>
-                            <ul>
-                                <% hl.items.forEach(function(item) { %>
-                                    <li><%= item %></li>
-                                <% }); %>
-                            </ul>
-                        </div>
-                    <% }); %>
-                </section>
-            <% }); %>
-
-                <section id="conclusion">
-                    <h2>Conclusion</h2>
-
-                    <p><%= blog.content.conclusion%></p>
-                </section>
-            </div>
-
-            <footer class="article-footer">
-                <div class="social-share">
-                    <h3>Share this article</h3>
-                    <div class="share-buttons">
-                        <a href="#" class="share-btn" id="shareTwitter">
-                            <i class="fab fa-twitter"></i>
-                            Twitter
-                        </a>
-                        <a href="#" class="share-btn" id="shareLinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                            LinkedIn
-                        </a>
-                        <a href="#" class="share-btn" id="shareWhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                            WhatsApp
-                        </a>
-                        <a href="#" class="share-btn" id="copyLink">
-                            <i class="fas fa-link"></i>
-                            Copy Link
-                        </a>
-                    </div>
-                </div>
-
-                <div class="author-bio">
-                    <div class="author-avatar">
-                       <% if (blog.author.avatar) { %>
-                <img src="<%= blog.author.avatar %>" style="max-width: 90%; max-height: 90%;" alt="<%= blog.author.name %>">
-            <% } else { %>
-                <i class="fas fa-user"></i>
-            <% } %>
-                    </div>
-                    <div class="author-info">
-                        <h4><%= blog.author.name %></h4>
-                        <p><%= blog.author.bio %></p>
-                    </div>
-                </div>
-
-                <div class="related-posts">
-                    <h3>Related Articles</h3>
-                    <div class="related-grid">
-                        <div class="related-card">
-                            <h5>Machine Learning in Medical Research</h5>
-                            <p>Exploring how ML algorithms are accelerating drug discovery and clinical trials...</p>
-                            <a href="#" class="related-link">Read More</a>
-                        </div>
-                        <div class="related-card">
-                            <h5>Digital Health: The Future of Patient Care</h5>
-                            <p>How digital technologies are reshaping healthcare delivery worldwide...</p>
-                            <a href="#" class="related-link">Read More</a>
-                        </div>
-                        <div class="related-card">
-                            <h5>Building Healthcare Apps with AI</h5>
-                            <p>A developer's guide to integrating AI capabilities into medical applications...</p>
-                            <a href="#" class="related-link">Read More</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="comment-section">
-                    <h3>Comments</h3>
-                    <form class="comment-form">
-                        <div class="form-group">
-                            <input type="text" class="form-input" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-input" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-textarea" placeholder="Your Comment" required></textarea>
-                        </div>
-                        <button type="submit" class="form-submit">Post Comment</button>
-                    </form>
-
-                    <div class="comments-list">
-                        <% blog.comments.forEach(function(comment) { %>
-                <% if (comment.approved) { %>
-                    <div class="comment">
-                        <div class="comment-header">
-                            <span class="comment-author"><%= comment.author.name %></span>
-                            <span class="comment-date"><%= comment.date.toLocaleDateString() %></span>
-                        </div>
-                        <p><%= comment.content %></p>
-                    </div>
-                <% } %>
-            <% }); %>
-                    </div>
-                </div>
-            </footer>
         </article>
+    <% }); %>
+</div>
+
+
+        <section class="portfolio-section">
+            <h3>Featured Projects</h3>
+            <p>A showcase of my latest work and experiments</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Medical App UI</h4>
+                        <p>Modern healthcare application interface</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Analytics Dashboard</h4>
+                        <p>Data visualization and reporting tool</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Portfolio Website</h4>
+                        <p>Responsive personal portfolio design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>E-commerce Platform</h4>
+                        <p>Full-stack online store solution</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+   <section class="newsletter-section">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to get the latest posts delivered to your inbox</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </section>
+
+
+        <section class="ecommerce-section">
+            <h3>Digital Products</h3>
+            <p>Premium resources and tools for developers and designers</p>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <div class="product-info">
+                        <h4>HTML Templates</h4>
+                        <p>Modern responsive templates</p>
+                        <div class="product-price">$29</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="product-info">
+                        <h4>UI Kit</h4>
+                        <p>Complete design system</p>
+                        <div class="product-price">$49</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="product-info">
+                        <h4>Web Dev Guide</h4>
+                        <p>Comprehensive learning resource</p>
+                        <div class="product-price">$19</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="product-info">
+                        <h4>Developer Tools</h4>
+                        <p>Productivity enhancing utilities</p>
+                        <div class="product-price">$39</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h3>Get In Touch</h3>
+            <p>Have a project in mind or want to collaborate? Let's talk!</p>
+            <form class="contact-form" method="post" action="/contact">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Your Name" name="fullname" required>
+                    <input type="email" class="form-input" placeholder="Your Email" name="email" required>
+                </div>
+                <input type="text" class="form-input" placeholder="Subject" name="subject" required>
+                <textarea class="form-textarea" placeholder="Your Message" name="message" required></textarea>
+                <button type="submit" class="form-submit" >Send Message</button>
+            </form>
+        </section>
+
+        <div class="comment-section">
+            <h3>Leave a Comment</h3>
+            <div class="comment-form">
+                <textarea class="comment-input" placeholder="Share your thoughts..." id="commentInput"></textarea>
+                <button class="comment-submit" onclick="addComment()">Post Comment</button>
+            </div>
+            <div id="commentsList"></div>
+        </div>
     </main>
 
     <button class="support-btn" id="supportBtn">
@@ -960,10 +1008,9 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script>
-        // Page loader
+  
+<script>
+            // Page loader
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
@@ -989,84 +1036,62 @@
         body.setAttribute('data-theme', savedTheme);
         themeToggle.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
 
-        // Reading progress bar
-        window.addEventListener('scroll', () => {
-            const article = document.querySelector('article');
-            const articleHeight = article.offsetHeight;
-            const articleTop = article.offsetTop;
-            const scrolled = window.pageYOffset - articleTop;
-            const progress = Math.min(Math.max(scrolled / articleHeight, 0), 1);
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const postsGrid = document.getElementById('postsGrid');
+        const posts = document.querySelectorAll('.post-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
             
-            document.getElementById('progressBar').style.width = (progress * 100) + '%';
-        });
-
-        // Table of contents active link
-        const tocLinks = document.querySelectorAll('.toc-link');
-        const sections = document.querySelectorAll('section[id]');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                if (pageYOffset >= sectionTop) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
+            posts.forEach(post => {
+                const title = post.querySelector('.post-title').textContent.toLowerCase();
+                const excerpt = post.querySelector('.post-excerpt').textContent.toLowerCase();
+                const tags = post.getAttribute('data-tags').toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm) || tags.includes(searchTerm)) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
                 }
             });
         });
 
-        // Smooth scrolling for TOC links
-        tocLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Tag filtering
+        const tagFilters = document.querySelectorAll('.tag-filter');
+        
+        tagFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                tagFilters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                
+                const selectedTag = filter.getAttribute('data-tag');
+                
+                posts.forEach(post => {
+                    const postTags = post.getAttribute('data-tags');
+                    
+                    if (selectedTag === 'all' || postTags.includes(selectedTag)) {
+                        post.style.display = 'block';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
             });
         });
 
-        // Social sharing
-        document.getElementById('shareTwitter').addEventListener('click', (e) => {
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const title = document.querySelector('.article-title').textContent;
-            const url = window.location.href;
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+            const email = e.target.querySelector('.newsletter-input').value;
+            alert(`Thank you for subscribing with ${email}!`);
+            e.target.reset();
         });
 
-        document.getElementById('shareLinkedIn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const url = window.location.href;
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
-        });
-
-        document.getElementById('shareWhatsApp').addEventListener('click', (e) => {
-            e.preventDefault();
-            const title = document.querySelector('.article-title').textContent;
-            const url = window.location.href;
-            window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
-        });
-
-        document.getElementById('copyLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const btn = e.target.closest('.share-btn');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                }, 2000);
-            });
+        // Contact form
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+           // e.preventDefault();
+            alert('Thank you for your message! I\'ll get back to you soon.');
+            e.target.reset();
         });
 
         // Support modal
@@ -1105,59 +1130,104 @@
             });
         });
 
-        // Comment form submission
-        document.querySelector('.comment-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = e.target.querySelector('input[type="text"]').value;
-            const email = e.target.querySelector('input[type="email"]').value;
-            const comment = e.target.querySelector('textarea').value;
-            
-            // Create new comment element
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
-                <div class="comment-header">
-                    <span class="comment-author">${name}</span>
-                    <span class="comment-date">Just now</span>
-                </div>
-                <p>${comment}</p>
-            `;
-            
-            // Add to comments list
-            const commentsList = document.querySelector('.comments-list');
-            commentsList.insertBefore(commentElement, commentsList.firstChild);
-            
-            // Reset form
-            e.target.reset();
-            
-            // Show success message
-            alert('Thank you for your comment!');
+        // Social sharing
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const icon = btn.querySelector('i');
+                const postCard = btn.closest('.post-card');
+                const postTitle = postCard.querySelector('.post-title').textContent;
+                const postUrl = window.location.href;
+                
+                if (icon.classList.contains('fa-twitter')) {
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`, '_blank');
+                } else if (icon.classList.contains('fa-whatsapp')) {
+                    window.open(`https://wa.me/?text=${encodeURIComponent(postTitle + ' ' + postUrl)}`, '_blank');
+                } else if (icon.classList.contains('fa-link')) {
+                    navigator.clipboard.writeText(postUrl).then(() => {
+                        btn.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => {
+                            btn.innerHTML = '<i class="fas fa-link"></i>';
+                        }, 2000);
+                    });
+                }
+            });
         });
 
-        // Lazy loading for images (if any)
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
+        // E-commerce functionality
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const productCard = btn.closest('.product-card');
+                const productName = productCard.querySelector('h4').textContent;
+                btn.textContent = 'Added!';
+                btn.style.background = '#28a745';
+                setTimeout(() => {
+                    btn.textContent = 'Add to Cart';
+                    btn.style.background = '';
+                }, 2000);
             });
+        });
 
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
+        // Portfolio item interactions
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const title = item.querySelector('h4').textContent;
+                alert(`Opening ${title} project details...`);
             });
+        });
+
+        // Comment system (local storage)
+        let comments = JSON.parse(localStorage.getItem('blogComments')) || [];
+
+        function addComment() {
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+            
+            if (commentText) {
+                const comment = {
+                    id: Date.now(),
+                    text: commentText,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                comments.unshift(comment);
+                localStorage.setItem('blogComments', JSON.stringify(comments));
+                commentInput.value = '';
+                displayComments();
+            }
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
+        function displayComments() {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = comments.map(comment => `
+                <div style="background: var(--card-bg); padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 3px solid var(--accent-color);">
+                    <p style="margin-bottom: 0.5rem;">${comment.text}</p>
+                    <small style="color: var(--text-secondary);">${comment.date}</small>
+                </div>
+            `).join('');
+        }
+
+        // Load comments on page load
+        displayComments();
+
+        // Enter key for comment submission
+        document.getElementById('commentInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                addComment();
             }
         });
-    </script>
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+</script>
 </body>
 </html>
