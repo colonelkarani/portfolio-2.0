@@ -1,0 +1,312 @@
+<%- include('partials/header') -%>
+
+<div class="container">
+    <h1><%= isEdit ? 'Edit Blog Post' : 'Create New Blog Post' %></h1>
+    
+    <form action="<%= isEdit ? '/blog/edit/' + blog._id : '/blog/create' %>" method="POST" class="blog-form">
+        <!-- Basic Information -->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" 
+                   id="title" 
+                   name="title" 
+                   class="form-control" 
+                   value="<%= blog ? blog.title : '' %>" 
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="slug">URL Slug</label>
+            <input type="text" 
+                   id="slug" 
+                   name="slug" 
+                   class="form-control" 
+                   value="<%= blog ? blog.slug : '' %>" 
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="excerpt">Excerpt</label>
+            <textarea id="excerpt" 
+                      name="excerpt" 
+                      class="form-control" 
+                      rows="3"><%= blog ? blog.excerpt : '' %></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="form-group">
+            <label for="tags">Tags (comma separated)</label>
+            <input type="text" 
+                   id="tags" 
+                   name="tags" 
+                   class="form-control" 
+                   value="<%= blog && blog.tags ? blog.tags.join(', ') : '' %>">
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" class="form-control">
+                <option value="">Select Category</option>
+                <option value="Technology" <%= blog && blog.category === 'Technology' ? 'selected' : '' %>>Technology</option>
+                <option value="Medicine" <%= blog && blog.category === 'Medicine' ? 'selected' : '' %>>Medicine</option>
+                <option value="Personal" <%= blog && blog.category === 'Personal' ? 'selected' : '' %>>Personal</option>
+                <option value="AI" <%= blog && blog.category === 'AI' ? 'selected' : '' %>>AI</option>
+            </select>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-sections">
+            <h3>Content Sections</h3>
+            
+            <!-- Introduction -->
+            <div class="form-group">
+                <label for="introduction">Introduction</label>
+                <textarea id="introduction" 
+                          name="content[introduction]" 
+                          class="form-control rich-editor" 
+                          rows="5"><%= blog && blog.content ? blog.content.introduction : '' %></textarea>
+            </div>
+
+            <!-- Dynamic Sections -->
+            <div id="sections-container">
+                <% if (blog && blog.content && blog.content.sections) { %>
+                    <% blog.content.sections.forEach((section, index) => { %>
+                        <div class="section-item" data-index="<%= index %>">
+                            <h4>Section <%= index + 1 %></h4>
+                            
+                            <div class="form-group">
+                                <label>Section ID</label>
+                                <input type="text" 
+                                       name="content[sections][<%= index %>][id]" 
+                                       class="form-control" 
+                                       value="<%= section.id %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Section Title</label>
+                                <input type="text" 
+                                       name="content[sections][<%= index %>][title]" 
+                                       class="form-control" 
+                                       value="<%= section.title %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Section Content</label>
+                                <textarea name="content[sections][<%= index %>][content]" 
+                                          class="form-control rich-editor" 
+                                          rows="8"><%= section.content %></textarea>
+                            </div>
+
+                            <!-- Code Blocks -->
+                            <div class="code-blocks">
+                                <h5>Code Blocks</h5>
+                                <% if (section.codeBlocks && section.codeBlocks.length > 0) { %>
+                                    <% section.codeBlocks.forEach((codeBlock, codeIndex) => { %>
+                                        <div class="code-block-item">
+                                            <div class="form-group">
+                                                <label>Language</label>
+                                                <input type="text" 
+                                                       name="content[sections][<%= index %>][codeBlocks][<%= codeIndex %>][language]" 
+                                                       class="form-control" 
+                                                       value="<%= codeBlock.language %>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Code</label>
+                                                <textarea name="content[sections][<%= index %>][codeBlocks][<%= codeIndex %>][code]" 
+                                                          class="form-control code-editor" 
+                                                          rows="10"><%= codeBlock.code %></textarea>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+                                <button type="button" class="btn btn-secondary add-code-block" data-section="<%= index %>">Add Code Block</button>
+                            </div>
+
+                            <!-- Highlights -->
+                            <div class="highlights">
+                                <h5>Highlight Boxes</h5>
+                                <% if (section.highlights && section.highlights.length > 0) { %>
+                                    <% section.highlights.forEach((highlight, highlightIndex) => { %>
+                                        <div class="highlight-item">
+                                            <div class="form-group">
+                                                <label>Highlight Title</label>
+                                                <input type="text" 
+                                                       name="content[sections][<%= index %>][highlights][<%= highlightIndex %>][title]" 
+                                                       class="form-control" 
+                                                       value="<%= highlight.title %>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Highlight Content</label>
+                                                <textarea name="content[sections][<%= index %>][highlights][<%= highlightIndex %>][content]" 
+                                                          class="form-control" 
+                                                          rows="3"><%= highlight.content %></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Items (one per line)</label>
+                                                <textarea name="content[sections][<%= index %>][highlights][<%= highlightIndex %>][items]" 
+                                                          class="form-control" 
+                                                          rows="5"><%= highlight.items ? highlight.items.join('\n') : '' %></textarea>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+                                <button type="button" class="btn btn-secondary add-highlight" data-section="<%= index %>">Add Highlight</button>
+                            </div>
+
+                            <button type="button" class="btn btn-danger remove-section">Remove Section</button>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+
+            <button type="button" id="add-section" class="btn btn-primary">Add New Section</button>
+
+            <!-- Conclusion -->
+            <div class="form-group">
+                <label for="conclusion">Conclusion</label>
+                <textarea id="conclusion" 
+                          name="content[conclusion]" 
+                          class="form-control rich-editor" 
+                          rows="5"><%= blog && blog.content ? blog.content.conclusion : '' %></textarea>
+            </div>
+        </div>
+
+        <!-- Author Information -->
+        <div class="author-section">
+            <h3>Author Information</h3>
+            <div class="form-group">
+                <label for="authorName">Author Name</label>
+                <input type="text" 
+                       id="authorName" 
+                       name="author[name]" 
+                       class="form-control" 
+                       value="<%= blog && blog.author ? blog.author.name : 'the blog' %>">
+            </div>
+            <div class="form-group">
+                <label for="authorBio">Author Bio</label>
+                <textarea id="authorBio" 
+                          name="author[bio]" 
+                          class="form-control" 
+                          rows="3"><%= blog && blog.author ? blog.author.bio : '' %></textarea>
+            </div>
+        </div>
+
+        <!-- Publishing Options -->
+        <div class="publishing-section">
+            <h3>Publishing Options</h3>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="draft" <%= blog && blog.status === 'draft' ? 'selected' : '' %>>Draft</option>
+                    <option value="published" <%= blog && blog.status === 'published' ? 'selected' : '' %>>Published</option>
+                    <option value="archived" <%= blog && blog.status === 'archived' ? 'selected' : '' %>>Archived</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="readTime">Read Time (minutes)</label>
+                <input type="number" 
+                       id="readTime" 
+                       name="readTime" 
+                       class="form-control" 
+                       value="<%= blog ? blog.readTime : 5 %>">
+            </div>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+                <%= isEdit ? 'Update Blog Post' : 'Create Blog Post' %>
+            </button>
+            <a href="/admin/blogs" class="btn btn-secondary">Cancel</a>
+            <% if (isEdit) { %>
+                <button type="button" class="btn btn-info" onclick="previewPost()">Preview</button>
+            <% } %>
+        </div>
+    </form>
+</div>
+
+<script>
+// Dynamic section management
+let sectionCount = <%= blog && blog.content && blog.content.sections ? blog.content.sections.length : 0 %>;
+
+document.getElementById('add-section').addEventListener('click', function() {
+    const container = document.getElementById('sections-container');
+    const newSection = createSectionHTML(sectionCount);
+    container.insertAdjacentHTML('beforeend', newSection);
+    sectionCount++;
+});
+
+function createSectionHTML(index) {
+    return `
+        <div class="section-item" data-index="${index}">
+            <h4>Section ${index + 1}</h4>
+            
+            <div class="form-group">
+                <label>Section ID</label>
+                <input type="text" name="content[sections][${index}][id]" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Section Title</label>
+                <input type="text" name="content[sections][${index}][title]" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Section Content</label>
+                <textarea name="content[sections][${index}][content]" class="form-control rich-editor" rows="8"></textarea>
+            </div>
+
+            <div class="code-blocks">
+                <h5>Code Blocks</h5>
+                <button type="button" class="btn btn-secondary add-code-block" data-section="${index}">Add Code Block</button>
+            </div>
+
+            <div class="highlights">
+                <h5>Highlight Boxes</h5>
+                <button type="button" class="btn btn-secondary add-highlight" data-section="${index}">Add Highlight</button>
+            </div>
+
+            <button type="button" class="btn btn-danger remove-section">Remove Section</button>
+        </div>
+    `;
+}
+
+// Remove section functionality
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-section')) {
+        e.target.closest('.section-item').remove();
+    }
+});
+
+// Auto-generate slug from title
+document.getElementById('title').addEventListener('input', function() {
+    const slug = this.value.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+    document.getElementById('slug').value = slug;
+});
+
+function previewPost() {
+    const form = document.querySelector('.blog-form');
+    const formData = new FormData(form);
+    
+    // Open preview in new window
+    const previewWindow = window.open('/blog/preview', '_blank');
+    
+    // Send form data to preview endpoint
+    fetch('/blog/preview', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(html => {
+        previewWindow.document.write(html);
+    });
+}
+</script>
+
+<%- include('partials/footer') -%>
