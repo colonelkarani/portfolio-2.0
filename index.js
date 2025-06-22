@@ -8,6 +8,7 @@ const { type } = require("os");
 const { log } = require("console");
 const Contact = require("./models/contactModel")
 const Project = require("./models/projectModel")
+const fs = require("fs")
 
 const app = express()
 
@@ -32,8 +33,24 @@ app.get("/blog", async(req,res)=>{
    
     res.render("blog", {blogs})
 })
+app.get("/", async(req,res)=>{
+    const blogs = await Blog.find()
+    const projects = await Project.find()
+    res.render("index", {blogs, projects})
+  
 
+    const ip = req.ip
+    const filePath = path.join(__dirname, "ips.csv")
+    const data = `${ip}, \n`
+    
+    fs.appendFile(filePath, data,  (err)=>{
+if (err) {
+    console.log("error writing to csv");    
+}
+console.log(`csv written successfully: ${data}`);
+    })
 
+})
 app.use(express.static(path.join(__dirname , "public")));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}));
