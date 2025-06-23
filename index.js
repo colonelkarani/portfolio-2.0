@@ -9,6 +9,8 @@ const { log } = require("console");
 const Contact = require("./models/contactModel")
 const Project = require("./models/projectModel")
 const fs = require("fs")
+const port = 80
+
 
 const app = express()
 
@@ -28,13 +30,20 @@ app.get("/project", (req, res)=>{
     res.render("project")
 })
 
+app.get("/.well-known/pki-validation/905B8B0ABD81008B56CA0D4485E95157.txt", (req,res)=>{
+    res.sendFile(path.join(__dirname, "wa.txt"))
+})
+
 app.get("/blog", async(req,res)=>{
-    const blogs = await Blog.find()
-   
+      const blogs = await Blog.find()
+
     res.render("blog", {blogs})
 })
 app.get("/", async(req,res)=>{
-    const blogs = await Blog.find()
+    const blogs = await Blog.aggregate([
+  { $sample: { size: 4 } }
+]);
+   
     const projects = await Project.find()
     res.render("index", {blogs, projects})
   
@@ -106,6 +115,6 @@ app.get('/project/:id', async (req, res) => {
 });
 
 
-app.listen(3000, ()=>{
-    console.log("app is listening on http://localhost:3000");    
+app.listen(port, ()=>{
+    console.log(`app is listening on http://localhost:${port}`);    
 })
